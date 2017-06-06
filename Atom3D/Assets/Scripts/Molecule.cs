@@ -1,52 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Atom : MonoBehaviour
-{
+public class Molecule : MonoBehaviour {
 
-    public int id;
-
-    public int nbProtons;
-    public int nbNeutrons;
-    public int nbElectrons;
-    public int nbElectronslibres;
-	
 	private bool _mouseState;
 	private GameObject target;
     public Vector3 screenSpace;
     public Vector3 offset;
 
-
-    public List<Atom> voisins;
-
-    public void AddVoisin(Atom a)
-    {
-        if (voisins.Count < nbElectronslibres && a.voisins.Count < a.nbElectronslibres)
-        {
-            voisins.Add(a);
-            a.voisins.Add(this);
-        }
-        else
-        {
-            Debug.Log("nombre de liaisons maximal atteint");
-        }
-    }
-
-    public void Break()
-    {
-        foreach (Atom a in voisins)
-        {
-            voisins.Remove(a);
-            a.voisins.Remove(this);
-        }
-    }
-
-
-
     // Use this for initialization
     void Start()
     {
-		this.transform.parent = GameObject.FindGameObjectsWithTag("molecule")[0].transform;
+
     }
 
     // Update is called once per frame
@@ -57,7 +23,7 @@ public class Atom : MonoBehaviour
  
             RaycastHit hitInfo;
             target = GetClickedObject (out hitInfo);
-			if ((target != null) && (target.CompareTag("atom"))) {
+			if ((target != null) && (target.CompareTag("molecule"))) {
                 _mouseState = true;
                 screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
                 offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
@@ -76,6 +42,8 @@ public class Atom : MonoBehaviour
             //update the position of the object in the world
             target.transform.position = curPosition;
         }
+		
+		
     }
 	
 	GameObject GetClickedObject (out RaycastHit hit) {
@@ -111,4 +79,3 @@ public class Atom : MonoBehaviour
 		}
 	}
 }
-
