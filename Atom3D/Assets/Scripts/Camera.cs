@@ -62,9 +62,11 @@ public class Camera : MonoBehaviour {
 				RaycastHit hitInfo;
 				objSelected2 = GetClickedObject (out hitInfo);
 				if ((objSelected2 != null) && (objSelected2.CompareTag ("atom"))) {
-					//construction du liens
-					GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
-					isSelected1 = false;
+					if (objSelected1 != objSelected2) {
+						//construction du liens
+						GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
+						isSelected1 = false;
+					}
 				}
 			} 
 			Debug.Log ("select1 : " + isSelected1.ToString ());
