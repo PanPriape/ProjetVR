@@ -8,6 +8,7 @@ public class Camera : MonoBehaviour {
 	private bool isSelected1;
 	private GameObject objSelected1;
 	private GameObject objSelected2;
+	private GameObject objSelected;
 
 	// Use this for initialization
 	void Start () {
@@ -48,27 +49,34 @@ public class Camera : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (1)) {
-			if (!isSelected1) {
-				objSelected1 = null;
-				objSelected2 = null;
-				//sélection du premier atome
-				RaycastHit hitInfo;
-				objSelected1 = GetClickedObject (out hitInfo);
-				if ((objSelected1 != null) && (objSelected1.CompareTag ("atom"))) {
-					isSelected1 = true;
-				}
-			} else if (isSelected1) {
-				//sélection du deuxième atom
-				RaycastHit hitInfo;
-				objSelected2 = GetClickedObject (out hitInfo);
-				if ((objSelected2 != null) && (objSelected2.CompareTag ("atom"))) {
-					if (objSelected1 != objSelected2) {
-						//construction du liens
-						GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
-						isSelected1 = false;
+			
+			RaycastHit hitInfo;
+			objSelected = GetClickedObject(out hitInfo);
+			
+			if (objSelected.CompareTag("molecule")) {
+				Debug.Log("molecule rotation");
+			} else if (objSelected.CompareTag("atom")) {
+				if (!isSelected1) {
+					objSelected1 = null;
+					objSelected2 = null;
+					//sélection du premier atome
+					objSelected1 = objSelected;
+					if (objSelected1 != null) {
+						isSelected1 = true;
 					}
-				}
-			} 
+				} else if (isSelected1) {
+					//sélection du deuxième atom
+					objSelected2 = objSelected;
+					if (objSelected2 != null) {
+						if (objSelected1 != objSelected2) {
+							//construction du liens
+							GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
+							isSelected1 = false;
+						}
+					}
+				} 
+			}
+			
 			Debug.Log ("select1 : " + isSelected1.ToString ());
 		}
 	}
