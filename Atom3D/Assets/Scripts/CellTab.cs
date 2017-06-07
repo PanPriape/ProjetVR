@@ -25,7 +25,7 @@ public class CellTab : MonoBehaviour {
 		}
 	}
 	
-	 void OnMouseDown(){
+	public void popAtom(){
 		GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)), place, Quaternion.identity); 
 		//Instantiate(atomPrefab, place, Quaternion.identity);
 	}

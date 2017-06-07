@@ -20,6 +20,7 @@ public class Link : MonoBehaviour {
          scale.y = dir.magnitude * 0.5f;
          transform.localScale = scale;
          transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+		 
 	}
 
 }

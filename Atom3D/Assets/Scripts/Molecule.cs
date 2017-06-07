@@ -9,6 +9,15 @@ public class Molecule : MonoBehaviour {
     public Vector3 screenSpace;
     public Vector3 offset;
 
+	
+	public bool getMouseState() {
+		return this._mouseState;
+	}
+	
+	public void setMouseState(bool state) {
+		this._mouseState = state;
+	}
+	
     // Use this for initialization
     void Start()
     {
@@ -19,19 +28,6 @@ public class Molecule : MonoBehaviour {
     void Update()
     {
 		// Debug.Log(_mouseState);
-        if (Input.GetMouseButtonDown (0)) {
- 
-            RaycastHit hitInfo;
-            target = GetClickedObject (out hitInfo);
-			if ((target != null) && (target.CompareTag("molecule"))) {
-                _mouseState = true;
-                screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
-                offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
-            }
-        }
-        if (Input.GetMouseButtonUp (0)) {
-            _mouseState = false;
-        }
         if (_mouseState) {
             //keep track of the mouse position
             var curScreenSpace = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
@@ -78,4 +74,11 @@ public class Molecule : MonoBehaviour {
 			}
 		}
 	}
+	
+	public void deplacement(GameObject target) {
+        _mouseState = true;
+		this.target = target;
+        screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
+        offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
+    }
 }

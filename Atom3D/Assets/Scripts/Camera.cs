@@ -5,7 +5,9 @@ using UnityEngine;
 public class Camera : MonoBehaviour {
 
 	public float speed = 0.1f;
+	
 	private bool isSelected1;
+	
 	private GameObject objSelected1;
 	private GameObject objSelected2;
 	private GameObject objSelected;
@@ -48,6 +50,31 @@ public class Camera : MonoBehaviour {
 			transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + scroll);
 		}
 
+		
+		if (Input.GetMouseButtonDown (0)) {
+			RaycastHit hitInfo;
+            objSelected = GetClickedObject (out hitInfo);
+			
+			if (objSelected.CompareTag("molecule")) {
+				objSelected.GetComponent<Molecule>().deplacement(objSelected);
+			} else if (objSelected.CompareTag("celltab")) {
+				objSelected.GetComponent<CellTab>().popAtom();
+			} else if (objSelected.CompareTag("atom")) {
+				objSelected.GetComponent<Atom>().deplacement(objSelected);
+			} else if (objSelected.CompareTag("link")) {
+				
+			}
+			
+        }
+		
+		if (Input.GetMouseButtonUp (0) && objSelected != null) {
+			if (objSelected.CompareTag("atom")) {
+				objSelected.GetComponent<Atom>().setMouseState(false);
+			} else if (objSelected.CompareTag("molecule")) {
+				objSelected.GetComponent<Molecule>().setMouseState(false);
+			}
+        }
+		
 		if (Input.GetMouseButtonDown (1)) {
 			
 			RaycastHit hitInfo;

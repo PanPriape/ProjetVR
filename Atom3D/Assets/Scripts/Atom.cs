@@ -12,7 +12,9 @@ public class Atom : MonoBehaviour
     public int nbElectronslibres;
 	
 	private bool _mouseState;
+	
 	private GameObject target;
+	
     public Vector3 screenSpace;
     public Vector3 offset;
 
@@ -41,7 +43,13 @@ public class Atom : MonoBehaviour
         }
     }
 
-
+	public bool getMouseState() {
+		return this._mouseState;
+	}
+	
+	public void setMouseState(bool state) {
+		this._mouseState = state;
+	}
 
     // Use this for initialization
     void Start()
@@ -53,20 +61,7 @@ public class Atom : MonoBehaviour
     void Update()
     {
 		// Debug.Log(_mouseState);
-        if (Input.GetMouseButtonDown (0)) {
- 
-            RaycastHit hitInfo;
-            target = GetClickedObject (out hitInfo);
-			if ((target != null) && (target.CompareTag("atom"))) {
-                _mouseState = true;
-                screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
-                offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
-            }
-        }
-        if (Input.GetMouseButtonUp (0)) {
-            _mouseState = false;
-        }
-        if (_mouseState) {
+		if (_mouseState) {
             //keep track of the mouse position
             var curScreenSpace = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
  
@@ -110,5 +105,13 @@ public class Atom : MonoBehaviour
 			}
 		}
 	}
+	
+	public void deplacement(GameObject target) {
+        _mouseState = true;
+		this.target = target;
+        screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
+        offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
+    }
+	
 }
 
