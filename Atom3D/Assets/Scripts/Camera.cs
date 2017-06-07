@@ -55,6 +55,8 @@ public class Camera : MonoBehaviour {
 			
 			if (objSelected.CompareTag("molecule")) {
 				Debug.Log("molecule rotation");
+			} else if (objSelected.CompareTag("link")) {
+				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {
 				if (!isSelected1) {
 					objSelected1 = null;
