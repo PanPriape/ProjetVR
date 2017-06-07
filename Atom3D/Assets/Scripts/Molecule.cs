@@ -53,24 +53,20 @@ public class Molecule : MonoBehaviour {
     }
 
 	void OnMouseEnter() {
-		int i = 1;
-		MeshFilter[] mfs = this.GetComponentsInChildren<MeshFilter> ();
-		foreach(MeshFilter mf in mfs) {
-			if (i == 1) {
-				i--;
-			} else {
-				mf.GetComponent<Renderer>().material.color = Color.red;
+		foreach (Transform child in transform)
+		{
+			foreach (Transform child_child in child) {
+				MeshFilter mf = child_child.GetComponent<MeshFilter> ();
+				mf.GetComponent<Renderer> ().material.color = Color.red;
 			}
 		}
 	}
 	void OnMouseExit() {
-		int i = 1;
-		MeshFilter[] mfs = this.GetComponentsInChildren<MeshFilter> ();
-		foreach(MeshFilter mf in mfs) {
-			if (i == 1) {
-				i--;
-			} else {
-				mf.GetComponent<Renderer>().material.color = Color.yellow;
+		foreach (Transform child in transform)
+		{
+			foreach (Transform child_child in child) {
+				MeshFilter mf = child_child.GetComponent<MeshFilter> ();
+				mf.GetComponent<Renderer> ().material.color = Color.yellow;
 			}
 		}
 	}
