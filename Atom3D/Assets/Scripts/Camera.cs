@@ -63,6 +63,18 @@ public class Camera : MonoBehaviour {
 				objSelected.GetComponent<Atom>().deplacement(objSelected);
 			} else if (objSelected.CompareTag("link")) {
 				Debug.Log("Lien Double");
+				if (objSelected.GetComponent<Link>().getType()) {
+					Debug.Log("Simple vers double");
+					objSelected.GetComponent<Link>().getSphere1().GetComponent<Atom>().removeVoisin(objSelected.GetComponent<Link>().getSphere2().GetComponent<Atom>());
+					objSelected.GetComponent<Renderer>().material.color = Color.blue;
+					objSelected.GetComponent<Link>().setType(false);
+				} else {
+					Debug.Log("Double vers simple");
+					if (objSelected.GetComponent<Link>().getSphere1().GetComponent<Atom>().AddVoisin(objSelected.GetComponent<Link>().getSphere2().GetComponent<Atom>())) {
+						objSelected.GetComponent<Renderer>().material.color = Color.red;
+						objSelected.GetComponent<Link>().setType(true);
+					}
+				}
 			}
 			
         }

@@ -35,6 +35,11 @@ public class Atom : MonoBehaviour
 			return false;
         }
     }
+	
+	public void removeVoisin(Atom a) {
+		voisins.Remove(a);
+		a.voisins.Remove(this);
+	}
 
     public void Break()
     {
