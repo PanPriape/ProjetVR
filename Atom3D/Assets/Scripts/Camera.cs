@@ -62,7 +62,7 @@ public class Camera : MonoBehaviour {
 			} else if (objSelected.CompareTag("atom")) {
 				objSelected.GetComponent<Atom>().deplacement(objSelected);
 			} else if (objSelected.CompareTag("link")) {
-				
+				Debug.Log("Lien Double");
 			}
 			
         }
@@ -98,8 +98,15 @@ public class Camera : MonoBehaviour {
 					objSelected2 = objSelected;
 					if (objSelected2 != null) {
 						if (objSelected1 != objSelected2) {
+							
+							//Test electron disponible
+							bool testLibre = objSelected1.GetComponent<Atom>().AddVoisin(objSelected2.GetComponent<Atom>());
+							
 							//construction du liens
-							GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
+							if (testLibre) {
+								GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Link.prefab", typeof(GameObject)));
+							}
+							
 							isSelected1 = false;
 						}
 					}

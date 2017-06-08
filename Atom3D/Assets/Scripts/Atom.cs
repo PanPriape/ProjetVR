@@ -21,16 +21,18 @@ public class Atom : MonoBehaviour
 
     public List<Atom> voisins;
 
-    public void AddVoisin(Atom a)
+    public bool AddVoisin(Atom a)
     {
         if (voisins.Count < nbElectronslibres && a.voisins.Count < a.nbElectronslibres)
         {
             voisins.Add(a);
             a.voisins.Add(this);
+			return true;
         }
         else
         {
             Debug.Log("nombre de liaisons maximal atteint");
+			return false;
         }
     }
 
