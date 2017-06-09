@@ -7,6 +7,7 @@ public class Centroid : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.transform.parent = GameObject.FindGameObjectsWithTag("molecule")[0].transform;
+		this.transform.position = new Vector3(0.0f,0.0f,0.0f);
 	}
 	
 	// Update is called once per frame
@@ -16,13 +17,16 @@ public class Centroid : MonoBehaviour {
 	
 	void calcPosition() {
 		GameObject[] atoms = GameObject.FindGameObjectsWithTag("atom");
-		Vector3 centroid = new Vector3(0,0,0);
+		Vector3 centroid = new Vector3(0.0f,0.0f,0.0f);
 		
-		for (int index = 0; index < atoms.Length; index++ ) {
-			centroid+=atoms[index].transform.position;
+		if (atoms.Length > 0) {
+			for (int index = 0; index < atoms.Length; index++ ) {
+				centroid+=atoms[index].transform.position;
+			}
+		
+			centroid/= atoms.Length;
 		}
 		
-		centroid/= atoms.Length;
 		this.transform.position = centroid;
 	}
 }
