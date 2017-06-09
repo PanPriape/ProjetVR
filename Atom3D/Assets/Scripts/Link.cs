@@ -35,6 +35,7 @@ public class Link : MonoBehaviour {
 	}
 	 
 	void Start() {
+		this.transform.parent = GameObject.FindGameObjectsWithTag("molecule")[0].transform;
         transform.localScale = new Vector3 (0.25f, 1.0f, 0.25f);
 		sphere1 = GameObject.Find ("Main Camera").GetComponent<Camera>().getObj1();
 		sphere2 = GameObject.Find ("Main Camera").GetComponent<Camera>().getObj2();

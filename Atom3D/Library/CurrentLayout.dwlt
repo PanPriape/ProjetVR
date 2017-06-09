@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 11
+  controlID: 49
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -371,8 +371,7 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders:
-    - Assets/Prefabs
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -383,7 +382,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 40260000
     m_LastClickedID: 9792
-    m_ExpandedIDs: 00000000bc2400002825000062250000
+    m_ExpandedIDs: 00000000bc240000282500004e25000062250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -408,7 +407,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 60}
+    scrollPos: {x: 0, y: 140}
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: 00000000bc240000282500004e25000062250000
@@ -527,23 +526,23 @@ MonoBehaviour:
     height: 343
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4e81ffff
-    m_LastClickedID: -32434
+    m_SelectedIDs: ace2ffff
+    m_LastClickedID: -7508
     m_ExpandedIDs: d8fbffff0000000092250000d0250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Carbon(Clone)
-      m_OriginalName: Carbon(Clone)
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: -24146
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 2}
     m_SearchString: 
@@ -579,14 +578,14 @@ MonoBehaviour:
     width: 687
     height: 343
   m_SceneLighting: 1
-  lastFramingTime: 768.9367661192553
+  lastFramingTime: 676.6734934006413
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -5.9364004, y: 1.6320001, z: -5.076001}
+    m_Target: {x: -1.869997, y: 0.0059998035, z: 8.349736}
     speed: 2
-    m_Value: {x: -5.9364004, y: 1.6320001, z: -5.076001}
+    m_Value: {x: -1.869997, y: 0.0059998035, z: 8.349736}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -609,13 +608,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.13424866, y: 0.09704498, z: -0.013211785, w: -0.9860959}
+    m_Target: {x: -0.084157966, y: 0.034965526, z: -0.0029548795, w: -0.9958344}
     speed: 2
-    m_Value: {x: -0.13424866, y: 0.09704499, z: -0.013211786, w: -0.98609596}
+    m_Value: {x: -0.084157966, y: 0.034965526, z: -0.0029548795, w: -0.9958344}
   m_Size:
-    m_Target: 2.6194048
+    m_Target: 28.548107
     speed: 2
-    m_Value: 2.6194048
+    m_Value: 28.548107
   m_Ortho:
     m_Target: 0
     speed: 2
