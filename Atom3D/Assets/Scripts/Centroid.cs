@@ -6,7 +6,7 @@ public class Centroid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.transform.parent = GameObject.FindGameObjectsWithTag("molecule")[0].transform;
+		this.transform.parent = GameObject.FindGameObjectsWithTag("container")[0].transform;
 		this.transform.position = new Vector3(0.0f,0.0f,0.0f);
 	}
 	

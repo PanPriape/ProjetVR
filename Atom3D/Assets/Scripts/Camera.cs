@@ -55,7 +55,7 @@ public class Camera : MonoBehaviour {
 			RaycastHit hitInfo;
             objSelected = GetClickedObject (out hitInfo);
 			
-			if (objSelected.CompareTag("molecule")) {
+			if (objSelected.CompareTag("container")) {
 				objSelected.GetComponent<Molecule>().deplacement(objSelected);
 			} else if (objSelected.CompareTag("celltab")) {
 				objSelected.GetComponent<CellTab>().popAtom();
@@ -82,7 +82,7 @@ public class Camera : MonoBehaviour {
 		if (Input.GetMouseButtonUp (0) && objSelected != null) {
 			if (objSelected.CompareTag("atom")) {
 				objSelected.GetComponent<Atom>().setMouseState(false);
-			} else if (objSelected.CompareTag("molecule")) {
+			} else if (objSelected.CompareTag("container")) {
 				objSelected.GetComponent<Molecule>().setMouseState(false);
 			}
         }
@@ -92,7 +92,7 @@ public class Camera : MonoBehaviour {
 			RaycastHit hitInfo;
 			objSelected = GetClickedObject(out hitInfo);
 			
-			if (objSelected.CompareTag("molecule")) {
+			if (objSelected.CompareTag("container")) {
 				Debug.Log("molecule rotation");
 			} else if (objSelected.CompareTag("link")) {
 				Destroy(objSelected);

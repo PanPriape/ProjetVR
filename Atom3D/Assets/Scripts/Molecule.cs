@@ -27,6 +27,7 @@ public class Molecule : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+		//transform.RotateAround (GameObject.FindGameObjectsWithTag("centroid")[0].transform.position, Vector3.up, 20 * Time.deltaTime);
 		// Debug.Log(_mouseState);
         if (_mouseState) {
             //keep track of the mouse position
