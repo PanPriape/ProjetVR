@@ -7,9 +7,11 @@ public class CellTab : MonoBehaviour {
 	//public Transform atomPrefab;
 	string path;
 	public Vector3 place;
+    int nextnumber = 0;
+    string clone = "(Clone)";
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		path = "Assets/Prefabs/"+this.gameObject.name+".prefab";
 		switch (this.gameObject.name)
 		{
@@ -29,9 +31,19 @@ public class CellTab : MonoBehaviour {
 		GameObject.Instantiate( UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)), place, Quaternion.identity); 
 		//Instantiate(atomPrefab, place, Quaternion.identity);
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public GameObject createAtom(Vector3 zone)
+    {
+        GameObject tmp;
+        tmp = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)), zone, Quaternion.identity) as GameObject;
+        tmp.name = tmp.name + nextnumber;
+        tmp.name = tmp.name.Replace(clone, "");
+        nextnumber++;
+        return tmp;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
