@@ -54,21 +54,15 @@ public class Molecule : MonoBehaviour {
     }
 
 	void OnMouseEnter() {
-		foreach (Transform child in transform)
-		{
-			foreach (Transform child_child in child) {
-				MeshFilter mf = child_child.GetComponent<MeshFilter> ();
-				mf.GetComponent<Renderer> ().material.color = Color.red;
-			}
+		GameObject[] gobjs = GameObject.FindGameObjectsWithTag ("electron");
+		foreach (GameObject gobj in gobjs) {
+			gobj.GetComponent<Renderer> ().material.color = Color.red;
 		}
 	}
 	void OnMouseExit() {
-		foreach (Transform child in transform)
-		{
-			foreach (Transform child_child in child) {
-				MeshFilter mf = child_child.GetComponent<MeshFilter> ();
-				mf.GetComponent<Renderer> ().material.color = Color.yellow;
-			}
+		GameObject[] gobjs = GameObject.FindGameObjectsWithTag ("electron");
+		foreach (GameObject gobj in gobjs) {
+			gobj.GetComponent<Renderer> ().material.color = Color.yellow;
 		}
 	}
 	
