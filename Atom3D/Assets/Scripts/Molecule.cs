@@ -19,11 +19,13 @@ public class Molecule : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (mouseState) {
+			this.rotationMolecule();
+		}
 	}
 	
 	public void rotationMolecule() {
 		Vector3 verticalaxis = transform.TransformDirection(Vector3.up);
-		transform.RotateAround (centroid.position, verticalaxis, 10);
+		transform.RotateAround (centroid.position, verticalaxis, 5);
 	}
 }

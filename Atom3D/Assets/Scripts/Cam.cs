@@ -94,9 +94,9 @@ public class Cam : MonoBehaviour {
 			
 			if (objSelected.CompareTag("container")) {
 				Debug.Log("molecule rotation autour du centroid");
-				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().rotationMolecule();
 				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(true);
 			} else if (objSelected.CompareTag("link")) {
+				//Retirer dans le tableau des voisins
 				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {
 				if (!isSelected1) {
@@ -128,6 +128,15 @@ public class Cam : MonoBehaviour {
 			}
 			
 			Debug.Log ("select1 : " + isSelected1.ToString ());
+		}
+		
+		if (Input.GetMouseButtonUp (1)) {
+			RaycastHit hitInfo;
+			objSelected = GetClickedObject(out hitInfo);
+			
+			if (objSelected.CompareTag("container")) {
+				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(false);
+			}
 		}
 	}
 
