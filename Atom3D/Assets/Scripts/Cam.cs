@@ -95,6 +95,7 @@ public class Cam : MonoBehaviour {
 			if (objSelected.CompareTag("container")) {
 				Debug.Log("molecule rotation autour du centroid");
 				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().rotationMolecule();
+				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(true);
 			} else if (objSelected.CompareTag("link")) {
 				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {

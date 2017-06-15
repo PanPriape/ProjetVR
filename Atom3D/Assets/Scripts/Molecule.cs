@@ -5,6 +5,12 @@ using UnityEngine;
 public class Molecule : MonoBehaviour {
 
 	private Transform centroid;
+	private bool mouseState;
+	
+	
+	public void setMouseState(bool state) {
+		this.mouseState = state;
+	}
 
 	// Use this for initialization
 	void Start () {
