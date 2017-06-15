@@ -56,7 +56,7 @@ public class Cam : MonoBehaviour {
             objSelected = GetClickedObject (out hitInfo);
 			
 			if (objSelected.CompareTag("container")) {
-				objSelected.GetComponent<Molecule>().deplacement(objSelected);
+				objSelected.GetComponent<Container>().deplacement(objSelected);
 			} else if (objSelected.CompareTag("celltab")) {
 				objSelected.GetComponent<CellTab>().popAtom();
 			} else if (objSelected.CompareTag("atom")) {
@@ -83,7 +83,7 @@ public class Cam : MonoBehaviour {
 			if (objSelected.CompareTag("atom")) {
 				objSelected.GetComponent<Atom>().setMouseState(false);
 			} else if (objSelected.CompareTag("container")) {
-				objSelected.GetComponent<Molecule>().setMouseState(false);
+				objSelected.GetComponent<Container>().setMouseState(false);
 			}
         }
 		
@@ -94,7 +94,7 @@ public class Cam : MonoBehaviour {
 			
 			if (objSelected.CompareTag("container")) {
 				Debug.Log("molecule rotation autour du centroid");
-				GameObject.FindGameObjectsWithTag("molecule")[0].transform.Rotate(0,10,0);
+				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().rotationMolecule();
 			} else if (objSelected.CompareTag("link")) {
 				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {
