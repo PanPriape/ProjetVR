@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour {
+public class Cam : MonoBehaviour {
 
 	public float speed = 0.1f;
 	
@@ -93,7 +93,8 @@ public class Camera : MonoBehaviour {
 			objSelected = GetClickedObject(out hitInfo);
 			
 			if (objSelected.CompareTag("container")) {
-				Debug.Log("molecule rotation");
+				Debug.Log("molecule rotation autour du centroid");
+				GameObject.FindGameObjectsWithTag("molecule")[0].transform.Rotate(0,10,0);
 			} else if (objSelected.CompareTag("link")) {
 				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {
