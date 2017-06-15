@@ -97,6 +97,11 @@ public class Cam : MonoBehaviour {
 				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(true);
 			} else if (objSelected.CompareTag("link")) {
 				//Retirer dans le tableau des voisins
+				if (objSelected.GetComponent<Link>().getType()) {
+					objSelected.GetComponent<Link>().getSphere1().GetComponent<Atom>().removeVoisin(objSelected.GetComponent<Link>().getSphere2().GetComponent<Atom>());
+				}
+				objSelected.GetComponent<Link>().getSphere1().GetComponent<Atom>().removeVoisin(objSelected.GetComponent<Link>().getSphere2().GetComponent<Atom>());
+				
 				Destroy(objSelected);
 			} else if (objSelected.CompareTag("atom")) {
 				if (!isSelected1) {
@@ -134,9 +139,7 @@ public class Cam : MonoBehaviour {
 			RaycastHit hitInfo;
 			objSelected = GetClickedObject(out hitInfo);
 			
-			if (objSelected.CompareTag("container")) {
-				GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(false);
-			}
+			GameObject.FindGameObjectsWithTag("molecule")[0].GetComponent<Molecule>().setMouseState(false);
 		}
 	}
 
