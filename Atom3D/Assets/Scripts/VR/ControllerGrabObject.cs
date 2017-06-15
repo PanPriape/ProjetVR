@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class ControllerGrabObject : MonoBehaviour {
+public class ControllerGrabObject : MonoBehaviour
+{
 
     public SteamVR_TrackedObject trackedObj;
 
@@ -9,13 +10,9 @@ public class ControllerGrabObject : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
-    void Awake()
-    {
-        trackedObj = GetComponent<SteamVR_TrackedObject>();
-    }
-
     public GameObject collidingObject;
     public GameObject objectInHand;
+
 
     public void SetCollidingObject(Collider col)
     {
@@ -25,7 +22,6 @@ public class ControllerGrabObject : MonoBehaviour {
         }
         collidingObject = col.gameObject;
     }
-
 
     public void OnTriggerEnter(Collider other)
     {
@@ -46,6 +42,13 @@ public class ControllerGrabObject : MonoBehaviour {
         collidingObject = null;
     }
 
+    public FixedJoint AddFixedJoint()
+    {
+        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
+        fx.breakForce = 20000;
+        fx.breakTorque = 20000;
+        return fx;
+    }
 
     public void GrabObject()
     {
@@ -55,15 +58,6 @@ public class ControllerGrabObject : MonoBehaviour {
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
     }
-
-    public FixedJoint AddFixedJoint()
-    {
-        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
-        fx.breakForce = 20000;
-        fx.breakTorque = 20000;
-        return fx;
-    }
-
 
     public void ReleaseObject()
     {
@@ -76,9 +70,14 @@ public class ControllerGrabObject : MonoBehaviour {
         objectInHand = null;
     }
 
+    void Awake()
+    {
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
+    }
 
-    void Update () {
-        if (Controller.GetHairTriggerDown())
+    void Update()
+    {
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
             if (collidingObject)
             {
@@ -86,7 +85,7 @@ public class ControllerGrabObject : MonoBehaviour {
             }
         }
 
-        if (Controller.GetHairTriggerUp())
+        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
             if (objectInHand)
             {

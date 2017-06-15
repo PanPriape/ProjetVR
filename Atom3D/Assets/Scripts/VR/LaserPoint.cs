@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-public class LeftLaserPoint : MonoBehaviour
+public class LaserPoint : MonoBehaviour
 {
-
     public float distanceSpawn;
 
     private SteamVR_TrackedObject trackedObj;
@@ -38,6 +37,67 @@ public class LeftLaserPoint : MonoBehaviour
         this.GetComponent<ControllerGrabObject>().GrabObject();
     }
 
+    void DestroyAtom(GameObject atom)
+    {
+        atom.GetComponent<Atom>().Break();
+        Destroy(atom);
+    }
+
+    void DownLink(GameObject link)
+    {
+        LinkVR linkComponent = link.GetComponent<LinkVR>();
+        if (linkComponent.getType())
+        {
+            linkComponent.setType(false);
+            linkComponent.getSphere1().gameObject.GetComponent<Atom>().removeVoisin(linkComponent.getSphere2().gameObject.GetComponent<Atom>());
+            link.GetComponent<Renderer>().material.color = Color.blue;
+        }
+        else
+        {
+            linkComponent.getSphere1().gameObject.GetComponent<Atom>().removeVoisin(linkComponent.getSphere2().gameObject.GetComponent<Atom>());
+            Destroy(link);
+        }
+    }
+
+    void CreateLink(GameObject atom)
+    {
+        if (objSelected1.Equals(atom))
+        {
+            objSelected1 = null;
+        }
+        if (objSelected1 == null)
+        {
+            objSelected1 = atom;
+        }
+        else
+        {
+            objSelected2 = atom;
+            bool testLibre = objSelected1.GetComponent<Atom>().AddVoisin(objSelected2.GetComponent<Atom>());
+            if (testLibre)
+            {
+                GameObject link = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LinkVR.prefab", typeof(GameObject))) as GameObject;
+                link.GetComponent<LinkVR>().setSphere1(objSelected1);
+                link.GetComponent<LinkVR>().setSphere2(objSelected2);
+            }
+            objSelected1 = null;
+            objSelected2 = null;
+        }
+    }
+
+    void UpLink(GameObject link)
+    {
+        LinkVR linkComponent = link.GetComponent<LinkVR>();
+        if (!linkComponent.getType())
+        {
+            bool testLibre = linkComponent.getSphere1().gameObject.GetComponent<Atom>().AddVoisin(linkComponent.getSphere2().gameObject.GetComponent<Atom>());
+            if (testLibre)
+            {
+                linkComponent.setType(true);
+                link.GetComponent<Renderer>().material.color = Color.red;
+            }
+        }
+    }
+
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -57,6 +117,7 @@ public class LeftLaserPoint : MonoBehaviour
             hitPoint = hit.point;
             ShowLaser(hit);
             Transform target = hit.transform;
+
             if (Controller.GetHairTriggerDown())
             {
                 if (target.gameObject.CompareTag("celltab"))
@@ -67,44 +128,26 @@ public class LeftLaserPoint : MonoBehaviour
                 if (target.gameObject.CompareTag("atom"))
                 {
                     // Detroy atom & links related
-                    Destroy(target.gameObject);
+                    DestroyAtom(target.gameObject);
                 }
                 if (target.gameObject.CompareTag("link"))
                 {
                     //Downgrade link or Destroy
-                    Destroy(target.gameObject);
+                    DownLink(target.gameObject);
                 }
             }
+
             if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 if (target.gameObject.CompareTag("atom"))
                 {
                     // Create a link if 2nd atom selected, deselect if same atom
-                    if (objSelected1.Equals(target.gameObject))
-                    {
-                        objSelected1 = null;
-                    }
-                    if (objSelected1 == null)
-                    {
-                        objSelected1 = target.gameObject;
-                    }
-                    else
-                    {
-                        objSelected2 = target.gameObject;
-                        bool testLibre = objSelected1.GetComponent<Atom>().AddVoisin(objSelected2.GetComponent<Atom>());
-                        if (testLibre)
-                        {
-                            GameObject link = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LinkVR.prefab", typeof(GameObject))) as GameObject;
-                            link.GetComponent<LinkVR>().setSphere1(objSelected1);
-                            link.GetComponent<LinkVR>().setSphere2(objSelected2);
-                        }
-                        objSelected1 = null;
-                        objSelected2 = null;
-                    }
+                    CreateLink(target.gameObject);
                 }
                 if (target.gameObject.CompareTag("link"))
                 {
                     //Upgrade link
+                    UpLink(target.gameObject);
                 }
             }
         }
