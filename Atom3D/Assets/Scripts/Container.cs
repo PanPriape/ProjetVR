@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Container : MonoBehaviour {
 
-private bool _mouseState;
-	private GameObject target;
+	private bool _mouseState;
+	
+	private float strength = 5.0f;
+	
     public Vector3 screenSpace;
     public Vector3 offset;
+	
+	private GameObject target;
+	private GameObject[] atoms;
 
 	
 	public bool getMouseState() {
@@ -16,6 +21,14 @@ private bool _mouseState;
 	
 	public void setMouseState(bool state) {
 		this._mouseState = state;
+	}
+	
+	public GameObject[] getAtoms() {
+			return this.atoms;
+	}
+		 
+	public void setTableau(GameObject[] atoms) {
+			 this.atoms = atoms;
 	}
 	
     // Use this for initialization
@@ -27,6 +40,7 @@ private bool _mouseState;
     // Update is called once per frame
     void Update()
     {
+		this.atoms = GameObject.FindGameObjectsWithTag("atom");
 		//transform.RotateAround (GameObject.FindGameObjectsWithTag("centroid")[0].transform.position, Vector3.up, 20 * Time.deltaTime);
 		// Debug.Log(_mouseState);
         if (_mouseState) {
@@ -40,6 +54,7 @@ private bool _mouseState;
             target.transform.position = curPosition;
         }
 		
+		this.masseRessort();
 		
     }
 	
@@ -72,4 +87,24 @@ private bool _mouseState;
         screenSpace = UnityEngine.Camera.main.WorldToScreenPoint (target.transform.position);
         offset = target.transform.position - UnityEngine.Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
     }
+	
+	public void masseRessort() {
+		
+		for (int index = 0; index < atoms.Length; index++) {
+			atoms[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
+			atoms[index].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+		}
+		
+		for (int index1 = 0; index1 < atoms.Length; index1++) {
+			for (int index2 = index1; index2 < atoms.Length; index2++) {
+				Vector3 direction1 = atoms[index1].transform.position - atoms[index2].transform.position;
+				Vector3 direction2 = atoms[index2].transform.position - atoms[index1].transform.position;
+				if (direction1.magnitude < 5.0f) {
+					atoms[index1].GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
+				} else if (direction2.magnitude > 5.1f) {
+					atoms[index1].GetComponent<Rigidbody>().AddForce(strength * direction2.normalized);
+				}
+			}
+		}		
+	}
 }

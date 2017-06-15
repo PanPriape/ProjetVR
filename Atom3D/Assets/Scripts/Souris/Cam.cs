@@ -84,6 +84,7 @@ public class Cam : MonoBehaviour {
 				objSelected.GetComponent<Atom>().setMouseState(false);
 			} else if (objSelected.CompareTag("container")) {
 				objSelected.GetComponent<Container>().setMouseState(false);
+				//GameObject.FindGameObjectsWithTag("container")[0].GetComponent<Container>().masseRessort();				
 			}
         }
 		

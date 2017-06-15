@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class ForceRepulsion : MonoBehaviour {
 
-         public GameObject[] repulseTo;
+         private GameObject[] repulseTo;
          public float strengthOfAttraction = 5.0f;
+		 
+		 public GameObject[] getTableau() {
+			return this.repulseTo;
+		 }
+		 
+		 public void setTableau(GameObject[] atoms) {
+			 this.repulseTo = atoms;
+		 }
      
          void Start () {
 			repulseTo = GameObject.FindGameObjectsWithTag("atom");
