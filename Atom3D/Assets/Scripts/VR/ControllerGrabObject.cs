@@ -77,7 +77,7 @@ public class ControllerGrabObject : MonoBehaviour
 
     void Update()
     {
-        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        if (Controller.GetHairTriggerDown())
         {
             if (collidingObject)
             {
@@ -85,7 +85,7 @@ public class ControllerGrabObject : MonoBehaviour
             }
         }
 
-        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+        if (Controller.GetHairTriggerUp())
         {
             if (objectInHand)
             {

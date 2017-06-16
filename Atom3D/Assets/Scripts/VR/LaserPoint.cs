@@ -11,8 +11,10 @@ public class LaserPoint : MonoBehaviour
     private Transform laserTransform;
     private Vector3 hitPoint;
 
-    private GameObject objSelected1;
-    private GameObject objSelected2;
+    public GameObject objSelected1;
+    public GameObject objSelected2;
+
+    Vector3 dControButton;
 
     private SteamVR_Controller.Device Controller
     {
@@ -30,7 +32,7 @@ public class LaserPoint : MonoBehaviour
 
     void CreateAndGrab(Transform celltab)
     {
-        Vector3 dControButton = celltab.position - this.transform.position;
+        
         Vector3 spawnPosition = ((distanceSpawn / dControButton.magnitude) * dControButton) + this.transform.position;
         GameObject atomSpawned = celltab.gameObject.GetComponent<CellTab>().createAtom(spawnPosition);
         this.GetComponent<ControllerGrabObject>().collidingObject = atomSpawned;
@@ -61,7 +63,7 @@ public class LaserPoint : MonoBehaviour
 
     void CreateLink(GameObject atom)
     {
-        if (objSelected1.Equals(atom))
+        if (objSelected1 == atom)
         {
             objSelected1 = null;
         }
@@ -72,12 +74,15 @@ public class LaserPoint : MonoBehaviour
         else
         {
             objSelected2 = atom;
-            bool testLibre = objSelected1.GetComponent<Atom>().AddVoisin(objSelected2.GetComponent<Atom>());
-            if (testLibre)
+            if (!objSelected1.GetComponent<Atom>().FindVoisin(objSelected2.GetComponent<Atom>()))
             {
-                GameObject link = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LinkVR.prefab", typeof(GameObject))) as GameObject;
-                link.GetComponent<LinkVR>().setSphere1(objSelected1);
-                link.GetComponent<LinkVR>().setSphere2(objSelected2);
+                bool testLibre = objSelected1.GetComponent<Atom>().AddVoisin(objSelected2.GetComponent<Atom>());
+                if (testLibre)
+                {
+                    GameObject link = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Prefabs/LinkVR.prefab", typeof(GameObject))) as GameObject;
+                    link.GetComponent<LinkVR>().setSphere1(objSelected1);
+                    link.GetComponent<LinkVR>().setSphere2(objSelected2);
+                }
             }
             objSelected1 = null;
             objSelected2 = null;
@@ -107,24 +112,21 @@ public class LaserPoint : MonoBehaviour
     {
         laser = Instantiate(laserPrefab);
         laserTransform = laser.transform;
+        objSelected1 = null;
+        objSelected2 = null;
     }
 
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100))
+        if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 10000))
         {
             hitPoint = hit.point;
             ShowLaser(hit);
             Transform target = hit.transform;
 
-            if (Controller.GetHairTriggerDown())
+            if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
             {
-                if (target.gameObject.CompareTag("celltab"))
-                {
-                    // Create new atom
-                    CreateAndGrab(target);
-                }
                 if (target.gameObject.CompareTag("atom"))
                 {
                     // Detroy atom & links related
@@ -135,6 +137,12 @@ public class LaserPoint : MonoBehaviour
                     //Downgrade link or Destroy
                     DownLink(target.gameObject);
                 }
+            }
+
+            if (Controller.GetHairTriggerDown() && target.gameObject.CompareTag("celltab"))
+            {
+                dControButton = target.position - this.transform.position;
+                CreateAndGrab(target);
             }
 
             if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
