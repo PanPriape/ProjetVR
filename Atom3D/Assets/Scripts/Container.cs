@@ -6,13 +6,14 @@ public class Container : MonoBehaviour {
 
 	private bool _mouseState;
 	
-	private float strength = 5.0f;
+	private float strength = 120.0f;
 	
     public Vector3 screenSpace;
     public Vector3 offset;
 	
 	private GameObject target;
 	private GameObject[] atoms;
+	private GameObject[] links;
 
 	
 	public bool getMouseState() {
@@ -30,6 +31,14 @@ public class Container : MonoBehaviour {
 	public void setTableau(GameObject[] atoms) {
 			 this.atoms = atoms;
 	}
+
+	public GameObject[] getLinks() {
+		return this.links;
+	}
+
+	public void setTabLinks(GameObject[] links) {
+		this.links = links;
+	}
 	
     // Use this for initialization
     void Start()
@@ -41,6 +50,7 @@ public class Container : MonoBehaviour {
     void Update()
     {
 		this.atoms = GameObject.FindGameObjectsWithTag("atom");
+		this.links =  GameObject.FindGameObjectsWithTag("link");
 		//transform.RotateAround (GameObject.FindGameObjectsWithTag("centroid")[0].transform.position, Vector3.up, 20 * Time.deltaTime);
 		// Debug.Log(_mouseState);
         if (_mouseState) {
@@ -55,7 +65,6 @@ public class Container : MonoBehaviour {
         }
 		
 		this.masseRessort();
-		
     }
 	
 	GameObject GetClickedObject (out RaycastHit hit) {
@@ -94,17 +103,21 @@ public class Container : MonoBehaviour {
 			atoms[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
 			atoms[index].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		}
-		
-		for (int index1 = 0; index1 < atoms.Length; index1++) {
-			for (int index2 = index1; index2 < atoms.Length; index2++) {
-				Vector3 direction1 = atoms[index1].transform.position - atoms[index2].transform.position;
-				Vector3 direction2 = atoms[index2].transform.position - atoms[index1].transform.position;
-				if (direction1.magnitude < 5.0f) {
-					atoms[index1].GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
-				} else if (direction2.magnitude > 5.1f) {
-					atoms[index1].GetComponent<Rigidbody>().AddForce(strength * direction2.normalized);
-				}
+
+		for (int i = 0; i < links.Length; i++) {
+			GameObject atom1 = links[i].GetComponent<Link>().getSphere1();
+			GameObject atom2 = links[i].GetComponent<Link>().getSphere2();
+
+
+			Vector3 direction1 = atom1.transform.position - atom2.transform.position;
+			Vector3 direction2 = atom2.transform.position - atom1.transform.position;
+
+			double longeurliaison = 2.0f;
+			if (direction1.magnitude < longeurliaison) {
+				atom1.GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
+			} else if (direction2.magnitude > longeurliaison + 0.1f) {
+				atom1.GetComponent<Rigidbody>().AddForce(strength * direction2.normalized);
 			}
-		}		
+		}
 	}
 }
