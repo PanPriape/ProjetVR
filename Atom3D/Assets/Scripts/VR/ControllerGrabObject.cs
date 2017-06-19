@@ -13,6 +13,7 @@ public class ControllerGrabObject : MonoBehaviour
     public GameObject collidingObject;
     public GameObject objectInHand;
 
+    public GameObject molecule;
 
     public void SetCollidingObject(Collider col)
     {
@@ -81,6 +82,7 @@ public class ControllerGrabObject : MonoBehaviour
         {
             if (collidingObject)
             {
+                molecule.GetComponent<Container>().move = false;
                 GrabObject();
             }
         }
@@ -89,6 +91,7 @@ public class ControllerGrabObject : MonoBehaviour
         {
             if (objectInHand)
             {
+                molecule.GetComponent<Container>().move = true;
                 ReleaseObject();
             }
         }

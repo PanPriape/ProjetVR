@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Container : MonoBehaviour {
 
@@ -15,6 +13,7 @@ public class Container : MonoBehaviour {
 	private GameObject[] atoms;
 	private GameObject[] links;
 
+    public bool move = true;
 	
 	public bool getMouseState() {
 		return this._mouseState;
@@ -39,12 +38,6 @@ public class Container : MonoBehaviour {
 	public void setTabLinks(GameObject[] links) {
 		this.links = links;
 	}
-	
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -63,8 +56,10 @@ public class Container : MonoBehaviour {
             //update the position of the object in the world
             target.transform.position = curPosition;
         }
-		
-		this.masseRessort();
+		if (move)
+        {
+		    this.masseRessort();
+        }
     }
 	
 	GameObject GetClickedObject (out RaycastHit hit) {
@@ -100,24 +95,38 @@ public class Container : MonoBehaviour {
 	public void masseRessort() {
 		
 		for (int index = 0; index < atoms.Length; index++) {
-			atoms[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            
+            atoms[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
 			atoms[index].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		}
 
 		for (int i = 0; i < links.Length; i++) {
-			GameObject atom1 = links[i].GetComponent<Link>().getSphere1();
-			GameObject atom2 = links[i].GetComponent<Link>().getSphere2();
+
+			GameObject atom1 = links[i].GetComponent<LinkVR>().getSphere1();
+			GameObject atom2 = links[i].GetComponent<LinkVR>().getSphere2();
 
 
 			Vector3 direction1 = atom1.transform.position - atom2.transform.position;
 			Vector3 direction2 = atom2.transform.position - atom1.transform.position;
 
 			double longeurliaison = 2.0f;
-			if (direction1.magnitude < longeurliaison) {
-				atom1.GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
-			} else if (direction2.magnitude > longeurliaison + 0.1f) {
+
+            atom1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            atom2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+            if (direction1.magnitude < longeurliaison) {
+                
+                atom1.GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
+                atom2.GetComponent<Rigidbody>().AddForce(strength * direction2.normalized);
+            } else if (direction2.magnitude > longeurliaison + 0.1f) {
 				atom1.GetComponent<Rigidbody>().AddForce(strength * direction2.normalized);
-			}
-		}
+                atom2.GetComponent<Rigidbody>().AddForce(strength * direction1.normalized);
+            }
+            else
+            {
+                atom1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                atom2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+        }
 	}
 }

@@ -147,6 +147,7 @@ public class LaserPoint : MonoBehaviour
 
             if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
             {
+                Debug.Log(target.gameObject.name);
                 if (target.gameObject.CompareTag("atom"))
                 {
                     // Create a link if 2nd atom selected, deselect if same atom
@@ -155,6 +156,7 @@ public class LaserPoint : MonoBehaviour
                 if (target.gameObject.CompareTag("link"))
                 {
                     //Upgrade link
+                    Debug.Log("Link trouvé");
                     UpLink(target.gameObject);
                 }
             }
