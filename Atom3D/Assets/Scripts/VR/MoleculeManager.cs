@@ -11,7 +11,13 @@ public class MoleculeManager : MonoBehaviour
     }
 
     public GameObject molecule;
-    
+    public GameObject innermolecule;
+    public GameObject rightController;
+    public bool scale;
+    public float baseDistance;
+    public float size;
+
+
     public FixedJoint AddFixedJoint()
     {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
@@ -40,18 +46,49 @@ public class MoleculeManager : MonoBehaviour
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        //rightController = GameObject.Find("Controller (right)");
+        scale = false;
     }
 
     void Update()
     {
-        if (Controller.GetHairTriggerDown())
+        if (scale)
         {
-                GrabObject();
+            float newDistance = (this.transform.position - rightController.transform.position).magnitude;
+            float newSize = 0;
+            if (newDistance >= baseDistance) { newSize = 1 * size * newDistance / baseDistance; }
+            else { newSize = 1 *size * newDistance / baseDistance; }
+            if (newSize < 0.10) { newSize = 0.10f; }
+            innermolecule.transform.localScale = new Vector3(newSize, newSize, newSize);
+            if (Controller.GetHairTriggerUp() || !rightController.GetComponent<ControllerGrabObject>().hair)
+            {
+                scale = false;
+            }
         }
-
-        if (Controller.GetHairTriggerUp())
+        else
         {
+            if (Controller.GetHairTriggerDown())
+            {
+                if (rightController.GetComponent<ControllerGrabObject>().hair)
+                {
+                    scale = true;
+                    baseDistance = (this.transform.position - rightController.transform.position).magnitude;
+                    size = innermolecule.transform.localScale.x;
+                }
+                else
+                {
+                    GrabObject();
+                }
+            }
+
+            if (Controller.GetHairTriggerUp())
+            {
                 ReleaseObject();
+            }
+            if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
+            {
+                molecule.transform.localScale += new Vector3(0.001f, 0.001f, 0.001f);
+            }
         }
     }
 }

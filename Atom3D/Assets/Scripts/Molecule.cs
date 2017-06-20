@@ -19,6 +19,7 @@ public class Molecule : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        align();
 		if (mouseState) {
 			this.rotationMolecule();
 		}
@@ -27,5 +28,19 @@ public class Molecule : MonoBehaviour {
 	public void rotationMolecule() {
 		Vector3 verticalaxis = transform.TransformDirection(Vector3.up);
 		transform.RotateAround (centroid.position, verticalaxis, 5);
-	}
+    }
+    void align()
+    {
+        GameObject[] atoms = GameObject.FindGameObjectsWithTag("atom");
+        Vector3[] positions = new Vector3[atoms.Length];
+        for (int i = 0; i < atoms.Length; i++)
+        {
+            positions[i] = atoms[i].transform.position;
+        }
+        this.transform.position = centroid.position;
+        for (int i = 0; i < atoms.Length; i++)
+        {
+            atoms[i].transform.position = positions[i];
+        }
+    }
 }

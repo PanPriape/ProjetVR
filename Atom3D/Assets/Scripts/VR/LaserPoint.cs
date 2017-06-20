@@ -14,7 +14,12 @@ public class LaserPoint : MonoBehaviour
     public GameObject objSelected1;
     public GameObject objSelected2;
 
+    public GameObject molecule;
+    public GameObject innermolecule;
+
     Vector3 dControButton;
+
+
 
     private SteamVR_Controller.Device Controller
     {
@@ -32,9 +37,11 @@ public class LaserPoint : MonoBehaviour
 
     void CreateAndGrab(Transform celltab)
     {
-        
+
         Vector3 spawnPosition = ((distanceSpawn / dControButton.magnitude) * dControButton) + this.transform.position;
         GameObject atomSpawned = celltab.gameObject.GetComponent<CellTab>().createAtom(spawnPosition);
+        float trueSize = atomSpawned.transform.localScale.x * innermolecule.transform.localScale.x;
+        atomSpawned.transform.localScale = new Vector3(trueSize,trueSize, trueSize);
         this.GetComponent<ControllerGrabObject>().collidingObject = atomSpawned;
         this.GetComponent<ControllerGrabObject>().GrabObject();
     }
@@ -141,13 +148,13 @@ public class LaserPoint : MonoBehaviour
 
             if (Controller.GetHairTriggerDown() && target.gameObject.CompareTag("celltab"))
             {
+
                 dControButton = target.position - this.transform.position;
                 CreateAndGrab(target);
             }
 
             if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
             {
-                Debug.Log(target.gameObject.name);
                 if (target.gameObject.CompareTag("atom"))
                 {
                     // Create a link if 2nd atom selected, deselect if same atom
@@ -156,7 +163,6 @@ public class LaserPoint : MonoBehaviour
                 if (target.gameObject.CompareTag("link"))
                 {
                     //Upgrade link
-                    Debug.Log("Link trouvé");
                     UpLink(target.gameObject);
                 }
             }

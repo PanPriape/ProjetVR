@@ -7,8 +7,6 @@ public class CellTab : MonoBehaviour {
 	//public Transform atomPrefab;
 	string path;
 	public Vector3 place;
-    int nextnumber = 0;
-    string clone = "(Clone)";
 
     // Use this for initialization
     void Start () {
@@ -36,9 +34,6 @@ public class CellTab : MonoBehaviour {
     {
         GameObject tmp;
         tmp = GameObject.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)), zone, Quaternion.identity) as GameObject;
-        tmp.name = tmp.name + nextnumber;
-        tmp.name = tmp.name.Replace(clone, "");
-        nextnumber++;
         return tmp;
     }
 

@@ -42,7 +42,7 @@ public class LinkVR : MonoBehaviour
     void Start()
     {
         this.transform.parent = GameObject.FindGameObjectsWithTag("molecule")[0].transform;
-        transform.localScale = new Vector3(0.15f, 1.0f, 0.15f);
+        transform.localScale = new Vector3(0.10f, 1.0f, 0.10f);
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class LinkVR : MonoBehaviour
             Vector3 dir = sphere2.transform.position - sphere1.transform.position;
             transform.position = sphere1.transform.position + 0.5f * dir;
             Vector3 scale = transform.localScale;
-            scale.y = dir.magnitude * 0.5f;
+            scale.y = dir.magnitude * 0.5f * 1/this.transform.parent.localScale.x;
             transform.localScale = scale;
             transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         }

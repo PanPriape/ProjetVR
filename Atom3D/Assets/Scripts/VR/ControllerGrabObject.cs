@@ -15,6 +15,8 @@ public class ControllerGrabObject : MonoBehaviour
 
     public GameObject molecule;
 
+    public bool hair;
+
     public void SetCollidingObject(Collider col)
     {
         if (collidingObject || !col.GetComponent<Rigidbody>())
@@ -74,12 +76,14 @@ public class ControllerGrabObject : MonoBehaviour
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        hair = false;
     }
 
     void Update()
     {
         if (Controller.GetHairTriggerDown())
         {
+            hair = true;
             if (collidingObject)
             {
                 molecule.GetComponent<Container>().move = false;
@@ -89,6 +93,7 @@ public class ControllerGrabObject : MonoBehaviour
 
         if (Controller.GetHairTriggerUp())
         {
+            hair = false;
             if (objectInHand)
             {
                 molecule.GetComponent<Container>().move = true;
